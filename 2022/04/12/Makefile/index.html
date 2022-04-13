@@ -22,7 +22,7 @@
 
   
 
-  <title>First Post | Yuan sure</title>
+  <title>Make file | Yuan sure</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://s1.328888.xyz/2022/04/13/fEMdi.jpg)"></div>
+    <div class="post-image" style="background-image: url(https://s1.328888.xyz/2022/04/13/fEbvP.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,7 +96,7 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">First Post</h1>
+          <h1 class="title-wrap">Make file</h1>
           <h2 class="title-sub-wrap">
             <strong>Yuan sure</strong>
             <span>发布于</span>
@@ -107,7 +107,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/Hexo/">🏷️ Hexo</a></li>
+    <li><a href="/tags/Linux-c/">🏷️ Linux/c++</a></li>
   
 </ul>
         </div>
@@ -131,8 +131,71 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="1-开始使用"><a href="#1-开始使用" class="headerlink" title="1 开始使用"></a>1 开始使用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g   <span class="comment"># 生成页面</span></span><br><span class="line">hexo d   <span class="comment"># 部署发布</span></span><br></pre></td></tr></table></figure>
+        <h2 id="Makefile"><a href="#Makefile" class="headerlink" title="Makefile"></a>Makefile</h2><h4 id="1-是什么"><a href="#1-是什么" class="headerlink" title="1 是什么"></a>1 是什么</h4><ul>
+<li>工程源文件繁多，按类型、功能、模块分别放在若干目录中，方便管理。</li>
+<li><code>Makefile</code>文件定义规则指定编译顺序等操作。可使用<code>make</code>命令自动化编译</li>
+</ul>
+<h4 id="2-命名和规则："><a href="#2-命名和规则：" class="headerlink" title="2 命名和规则："></a>2 命名和规则：</h4><ul>
+<li><p><code>Makefile</code>或<code>makefile</code></p>
+</li>
+<li><p>&#96;&#96;&#96;<br>‘’’<br>目标 …: 依赖 …<br>命令（shell）<br>…<br>‘’’</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```makefile</span><br><span class="line">  app:add.c div.c main.c mult.c sub.c</span><br><span class="line">  	gcc add.c div.c main.c mult.c sub.c -o app</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="C:\Users\37448\AppData\Roaming\Typora\typora-user-images\image-20220413162707625.png" alt="image-20220413162707625"></p>
+<h4 id="3-工作原理"><a href="#3-工作原理" class="headerlink" title="3 工作原理"></a>3 工作原理</h4><ul>
+<li>先检查依赖是否存在<ul>
+<li>若存在，执行命令</li>
+<li>不存在，向下检查是否有规则生成此依赖，找到则执行</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 比第一个版本效率更高：只更新改动的文件</span></span><br><span class="line"><span class="section">app:add.o div.o main.o mult.o sub.o</span></span><br><span class="line">	gcc add.o div.o main.o mult.o sub.o -o app</span><br><span class="line"></span><br><span class="line"><span class="section">sub.o:sub.c</span></span><br><span class="line">	gcc -c sub.c -o sub.o</span><br><span class="line"></span><br><span class="line"><span class="section">add.o:add.c</span></span><br><span class="line">	gcc -c add.c -o add.o</span><br><span class="line"></span><br><span class="line"><span class="section">div.o:div.c</span></span><br><span class="line">	gcc -c div.c -o div.o</span><br><span class="line"></span><br><span class="line"><span class="section">mult.o:mult.c</span></span><br><span class="line">	gcc -c mult.c -o mult.o</span><br><span class="line"></span><br><span class="line"><span class="section">main.o:main.c</span></span><br><span class="line">	gcc -c main.c -o main.o</span><br></pre></td></tr></table></figure>
 
+<p><img src="C:\Users\37448\AppData\Roaming\Typora\typora-user-images\image-20220413164109884.png" alt="image-20220413164109884"></p>
+<ul>
+<li>检测更新，比较目标和依赖文件的时间<ul>
+<li>若依赖时间晚于目标时间，重新生成</li>
+<li>早（没有改动的文件）：则不更新</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-变量"><a href="#4-变量" class="headerlink" title="4 变量"></a>4 变量</h4><ul>
+<li>自定义变量：变量名&#x3D;变量值，<code>var=hello</code></li>
+<li>预定义变量<ul>
+<li>CC ：c编译器名称，默认值为 cc</li>
+<li>$@：目标的完整名称</li>
+<li>$&lt; ：第一个依赖文件的名称</li>
+<li>$^ ：所有的依赖文件</li>
+</ul>
+</li>
+<li>获取变量的值：$(变量名)，<code>$(var)</code></li>
+</ul>
+<h4 id="5-模式匹配"><a href="#5-模式匹配" class="headerlink" title="5 模式匹配"></a>5 模式匹配</h4><ul>
+<li><pre><code class="makefile"># %:通配符，两个%匹配同一个字符串
+%.o:%.c
+    gcc -c &amp;&lt; -o $@
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 6 函数：</span><br><span class="line"></span><br><span class="line">- ``$(wildcard PATTERN...)`</span><br><span class="line"></span><br><span class="line">  - 功能：获取指定目录下指定类型的文件列表</span><br><span class="line"></span><br><span class="line">  - 参数：PATTERN指某个或多个目录下对应某个类型的文件，多个目录空格隔开</span><br><span class="line"></span><br><span class="line">  - 返回：若干文件的列表，空格间隔</span><br><span class="line"></span><br><span class="line">  - 示例：</span><br><span class="line"></span><br><span class="line">    ```makefile</span><br><span class="line">    $(wildcard *.c ./sub/*.c)</span><br><span class="line">    返回值格式：a.c b.c c.c d.c e.c f.c</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p><code>$(patsubst&lt;pattern&gt;,&lt;replacement&gt;,&lt;text&gt;)</code></p>
+<ul>
+<li><p>功能：查找 text 中的单词是否符合 pattern ，匹配则以 replacement 替换</p>
+</li>
+<li><p><code>%</code> ：通配符，匹配 <code>%</code> 可使用 <code>\%</code> 转义</p>
+</li>
+<li><p>返回：被替换后的字符串</p>
+</li>
+<li><p>示例：</p>
+</li>
+<li><p>&#96;&#96;&#96;makefile<br>$(patsubst %.c, %.o, xxx.c)<br>返回值格式：xxx.o</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">修改版`makefile`：</span><br><span class="line"></span><br><span class="line">```makefile</span><br><span class="line"># 定义变量</span><br><span class="line">src=$(wildcard ./*.c)</span><br><span class="line">target=app</span><br><span class="line">objs=$(patsubst %.c, %.o, $(src)) </span><br><span class="line"></span><br><span class="line">$(target):$(objs)</span><br><span class="line">	$(CC) $(objs) -o $(target)</span><br><span class="line"></span><br><span class="line">%.o:%.c</span><br><span class="line">	$(CC) -c $&lt; -o $@</span><br><span class="line"></span><br><span class="line"># 删除生成的.o 定义为伪目标，就不用生成文件,可防止与外部文件clean对比</span><br><span class="line">.PHONY:clean</span><br><span class="line">clean:</span><br><span class="line">	rm $(objs) -f</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><code>make</code> 默认执行第一条规则，<code>make clean</code>执行<code>clean</code></p>
+<p><img src="C:\Users\37448\AppData\Roaming\Typora\typora-user-images\image-20220413174103391.png" alt="image-20220413174103391"></p>
+</blockquote>
 
       </section>
 
@@ -140,16 +203,32 @@
       
         <nav class="article-nav">
           
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://s1.328888.xyz/2022/04/13/fEMdi.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/04/12/First-Post/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">First Post</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://s1.328888.xyz/2022/04/13/fEbvP.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="https://s1.328888.xyz/2022/04/13/fEN3v.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/04/12/Makefile/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Make file</h2>
+        <a href="/2022/04/12/hello-world/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Hello World</h2>
         </a>
       
       <div class="card-text--row">Older</div>
